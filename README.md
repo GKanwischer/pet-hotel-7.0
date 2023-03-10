@@ -17,11 +17,11 @@ It is likely caused because your controllers do not have any valid routes set up
 
 ### Pet Hotel UI (working with base goals met)
 
-![Pet Hotel Screenshot](pet-hotel.png)
+![Pet Hotel Screenshot](Static/pet-hotel.png)
 
 ### Passing Tests (npm test)
 
-![Passing Tests](tests.png)
+![Passing Tests](Static/tests.png)
 
 ## Project Requirements
 
