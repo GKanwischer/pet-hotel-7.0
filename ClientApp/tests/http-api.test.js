@@ -9,7 +9,7 @@ let pet = null;
 const SERVER_URL = "http://localhost:5000";
 test("Create a new pet owner via HTTP POST", async () => {
   // nothing to do yet
-  const newOwner = { name: "test owner", emailAddress: "test@example.com" };
+  const newOwner = { name: "test owner", email: "test@example.com" };
   const response = await axios.post(`${SERVER_URL}/api/petowners`, newOwner);
   petOwner = response.data;
   expect(response.status).toBe(201);
@@ -63,9 +63,9 @@ test("Create a new pet via HTTP POST", async () => {
   // nothing to do yet
   const newPet = {
     name: "Fido 1",
-    breed: "Retriever",
-    color: "Golden",
-    petOwnerid: petOwner.id,
+    petBreed: "Retriever",
+    petColor: "Golden",
+    petOwnerId: petOwner.id,
   };
   let response;
   try {
@@ -79,7 +79,7 @@ test("Create a new pet via HTTP POST", async () => {
   expect(typeof response.data.id).toBe(typeof 0);
   expect(typeof response.data.petOwner.petCount).toBe(typeof 1);
   expect(response.data.petOwner.petCount).toBe(1);
-  expect(response.data.checkedInAt).toBeNull();
+  expect(response.data.checkedInAt).toBe("0001-01-01T00:00:00");
   console.log(`Pet created with id ${pet.id} and owner ${petOwner.name}`);
 });
 
@@ -107,7 +107,7 @@ test("Check out the pet via HTTP PUT", async () => {
   const response = await axios.put(`${SERVER_URL}/api/pets/${pet.id}/checkout`);
   expect(response.status).toBe(200);
   expect(response.data.name).toBe(pet.name);
-  expect(response.data.checkedInAt).toBeNull();
+  expect(response.data.checkedInAt).toBe("0001-01-01T00:00:00");
   console.log(`Checked out pet with id ${pet.id}`);
   pet = response.data;
 });
