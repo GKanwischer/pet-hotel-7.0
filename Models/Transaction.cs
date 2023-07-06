@@ -13,10 +13,20 @@ namespace pet_hotel {
         [Required]
         public string description { get; set; }
 
-        [ForeignKey("PetOwners")]
-        public int petOwnerId { get; set; }
+        // [ForeignKey("PetOwners")]
+        // public int petOwnerId { get; set; }
 
-        [ForeignKey("Pets")]
-        public int petId { get; set; }
+        // [ForeignKey("Pets")]
+        // public int petId { get; set; }
+
+        public Transaction(){
+            
+        }
+
+        public Transaction (string descript){
+
+            description = descript + DateTime.Now.ToString();
+
+        }
     }
 }

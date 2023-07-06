@@ -10,8 +10,8 @@ class PetsTable extends Component {
     successMessage: null,
     newPet: {
       name: "",
-      petBreed: "",
-      petColor: "",
+      breed: "",
+      color: "",
       petOwnerId: "",
     },
   };
@@ -48,8 +48,8 @@ class PetsTable extends Component {
             {this.props.pets.map((pet) => (
               <tr key={`pet-row-${pet.id}`}>
                 <td>{pet.name}</td>
-                <td>{pet.petBreed}</td>
-                <td>{pet.petColor}</td>
+                <td>{pet.breed}</td>
+                <td>{pet.color}</td>
                 <td>
                   {pet.checkedInAt !== "0001-01-01T00:00:00"
                     ? moment.utc(pet.checkedInAt).local().calendar()
@@ -170,10 +170,10 @@ class PetsTable extends Component {
           />
           <select
             className={"form-control col-md-2 mr-2"}
-            value={this.state.newPet.petBreed}
+            value={this.state.newPet.breed}
             onChange={(e) =>
               this.setState({
-                newPet: { ...this.state.newPet, petBreed: e.target.value },
+                newPet: { ...this.state.newPet, breed: e.target.value },
               })
             }
           >
@@ -191,10 +191,10 @@ class PetsTable extends Component {
           </select>
           <select
             className={"form-control col-md-2 mr-2"}
-            value={this.state.newPet.petColor}
+            value={this.state.newPet.color}
             onChange={(e) =>
               this.setState({
-                newPet: { ...this.state.newPet, petColor: e.target.value },
+                newPet: { ...this.state.newPet, color: e.target.value },
               })
             }
           >
@@ -285,7 +285,7 @@ class PetsTable extends Component {
       const response = await axios.get("api/pets/");
       this.props.dispatch({ type: "SET_PETS", payload: response.data });
       this.props.fetchPetOwners();
-
+      
       // stretch goal 1: grab a list of breeds from the backend
       // stretch goal 2: grab a list of colors from the backend
 

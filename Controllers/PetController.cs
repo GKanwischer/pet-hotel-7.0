@@ -47,11 +47,15 @@ namespace pet_hotel.Controllers
         public IActionResult createPet([FromBody] Pet newPet)
         {
             Pet goodestPet = newPet;
+            Console.WriteLine($"Goodest Pet: {goodestPet.breed} {goodestPet.color}", newPet);
             goodestPet.petOwner = _context.PetOwners.SingleOrDefault(owner => owner.id == newPet.petOwnerId);
             
             Console.WriteLine($"pet owner: {goodestPet.petOwner}", goodestPet);
 
             _context.Pets.Add(goodestPet);
+            Transaction transdescript = new Transaction("New pet posted at ");
+
+            _context.Transactions.Add(transdescript);
             _context.SaveChanges();
             return Created($"/api/pets/{goodestPet.id}", goodestPet);
         }
@@ -65,6 +69,9 @@ namespace pet_hotel.Controllers
                 return NotFound();
             }
             _context.Pets.Remove(petToDelete);
+            Transaction transdescript = new Transaction("Pet deleted at ");
+
+            _context.Transactions.Add(transdescript);
             _context.SaveChanges();
             return NoContent();
         }
@@ -79,6 +86,9 @@ namespace pet_hotel.Controllers
 
             // Security double check: Make sure that pet.id matches the URL id
             _context.Pets.Update(pet);
+            Transaction transdescript = new Transaction("Pet updated at ");
+
+            _context.Transactions.Add(transdescript);
             _context.SaveChanges();
             return Ok(pet);
         }
@@ -94,6 +104,9 @@ namespace pet_hotel.Controllers
             }
             checkingIn.checkIn();
             _context.Pets.Update(checkingIn);
+            Transaction transdescript = new Transaction("Pet checked in at ");
+
+            _context.Transactions.Add(transdescript);
             _context.SaveChanges();
             return Ok(checkingIn);
 
@@ -110,6 +123,9 @@ namespace pet_hotel.Controllers
             }
             checkingOut.checkOut();
             _context.Pets.Update(checkingOut);
+            Transaction transdescript = new Transaction("Pet checked out at ");
+
+            _context.Transactions.Add(transdescript);
             _context.SaveChanges();
             return Ok(checkingOut);
 

@@ -14,12 +14,21 @@ namespace pet_hotel.Controllers{
         public TransactionController(ApplicationContext context){
             _context = context;
         }
-
+        
         [HttpGet]
         public ICollection<Transaction> GetTransactions()
         {
             return _context.Transactions
                     .Include(trans => trans.description).ToArray();
+        }
+
+        [HttpPost]
+        public IActionResult createTransaction([FromBody] Transaction newTransaction)
+        {
+            _context.Transactions.Add(newTransaction);
+            _context.SaveChanges();
+
+            return Created($"/api/Transactions/{newTransaction.id}", newTransaction);
         }
     }
 }

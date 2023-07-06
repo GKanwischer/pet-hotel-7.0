@@ -41,9 +41,11 @@ namespace pet_hotel.Controllers
         [HttpPost]
         public IActionResult createOwner([FromBody] PetOwner newOwner)
         {
+            Transaction transdescript = new Transaction("Owner Created at ");
+
+            _context.Transactions.Add(transdescript);
             _context.PetOwners.Add(newOwner);
             _context.SaveChanges();
-            
 
             PetOwner CreatedPetOwner = _context.PetOwners.OrderByDescending(p => p.id).Include(p => p.pets).FirstOrDefault();
             return Created($"api/PetOwner/{newOwner.id}", newOwner);
@@ -53,6 +55,10 @@ namespace pet_hotel.Controllers
         [HttpDelete("{petOwnerId}")]
         public IActionResult deletePetOwnerById(int petOwnerId)
         {
+            Transaction transdescript = new Transaction("Owner Deleted at ");
+
+            _context.Transactions.Add(transdescript);
+            
             PetOwner ownerToDelete = _context.PetOwners.SingleOrDefault(owner => owner.id == petOwnerId);
             if (ownerToDelete == null)
             {
@@ -70,6 +76,10 @@ namespace pet_hotel.Controllers
 
             if (!_context.PetOwners.Any(b => b.id == petOwnerId)) return NotFound();
 
+            Transaction transdescript = new Transaction("Owner Updated at ");
+
+            _context.Transactions.Add(transdescript);
+            
             _context.PetOwners.Update(owner);
             _context.SaveChanges();
             return Ok(owner);
