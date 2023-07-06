@@ -10,5 +10,6 @@ public class ApplicationContext : DbContext
 
     public DbSet<Pet> Pets { get; set; }
 
+    public DbSet<Transaction> Transactions { get; set; }
 
 }
