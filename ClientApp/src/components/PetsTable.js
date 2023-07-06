@@ -57,7 +57,7 @@ class PetsTable extends Component {
                 </td>
                 <td>{pet.petOwner.name}</td>
                 <td>
-                  {pet.checkedInAt !== "0001-01-01T00:00:00" ? (
+                  {pet.checkedInAt ? (
                     <button
                       onClick={() => this.checkOut(pet.id)}
                       className="btn btn-sm btn-info ml-1 mr-1"

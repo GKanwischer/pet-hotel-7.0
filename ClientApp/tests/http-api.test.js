@@ -67,6 +67,7 @@ test("Create a new pet via HTTP POST", async () => {
     petColor: "Golden",
     petOwnerId: petOwner.id,
   };
+  console.log(petOwner.id);
   let response;
   try {
     response = await axios.post(`${SERVER_URL}/api/pets`, newPet);
@@ -74,12 +75,13 @@ test("Create a new pet via HTTP POST", async () => {
     console.log(err.response.data);
   }
   pet = response.data;
+  console.log('response.data' ,pet);
   expect(response.status).toBe(201);
   expect(typeof response.data).toBe(typeof {});
   expect(typeof response.data.id).toBe(typeof 0);
   expect(typeof response.data.petOwner.petCount).toBe(typeof 1);
   expect(response.data.petOwner.petCount).toBe(1);
-  expect(response.data.checkedInAt).toBe("0001-01-01T00:00:00");
+  expect(response.data.checkedInAt).toBeNull();
   console.log(`Pet created with id ${pet.id} and owner ${petOwner.name}`);
 });
 
@@ -107,7 +109,7 @@ test("Check out the pet via HTTP PUT", async () => {
   const response = await axios.put(`${SERVER_URL}/api/pets/${pet.id}/checkout`);
   expect(response.status).toBe(200);
   expect(response.data.name).toBe(pet.name);
-  expect(response.data.checkedInAt).toBe("0001-01-01T00:00:00");
+  expect(response.data.checkedInAt).toBeNull();
   console.log(`Checked out pet with id ${pet.id}`);
   pet = response.data;
 });

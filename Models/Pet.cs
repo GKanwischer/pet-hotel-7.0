@@ -5,14 +5,18 @@ using System;
 
 namespace pet_hotel
 {
-    public enum PetBreedType {
+    public enum PetBreedType
+    {
         Shepherd, Poodle, Beagle, Bulldog, Terrier, Boxer, Labrador, Retriever
         // DMX (WHERE MY DOGS AT)
     }
-    public enum PetColorType {
+    public enum PetColorType
+    {
         White, Black, Golden, Tricolor, Spotted
     }
-    public class Pet {
+    public class Pet
+    {
+
         public int id { get; set; }
 
         [Required]
@@ -31,11 +35,17 @@ namespace pet_hotel
 
         public DateTime? checkedInAt { get; set; }
 
-        public void checkIn() {
-            if (checkedInAt == null){
-            checkedInAt = DateTime.Now;
-            }
+        public void checkIn()
+        {
+            Console.WriteLine("Does this shit even work????");
+            checkedInAt = DateTime.UtcNow;
+
+        }
+
+        public void checkOut()
+        {
             checkedInAt = null;
+
         }
 
     }
