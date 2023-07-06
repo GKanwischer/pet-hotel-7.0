@@ -37,15 +37,12 @@ namespace pet_hotel
 
         public void checkIn()
         {
-            Console.WriteLine("Does this shit even work????");
             checkedInAt = DateTime.UtcNow;
-
         }
 
         public void checkOut()
         {
             checkedInAt = null;
-
         }
 
     }

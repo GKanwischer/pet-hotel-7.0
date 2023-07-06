@@ -24,7 +24,5 @@ namespace pet_hotel
             return pets == null ? 0 : pets.Count;
         }
      }
-
-
-    }
+}
 }

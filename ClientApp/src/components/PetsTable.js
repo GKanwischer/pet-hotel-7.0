@@ -23,11 +23,8 @@ class PetsTable extends Component {
   renderTable = () => {
     return (
       <div className="table-responsive">
-        <table
-          className="table table-striped table-bordered table-hover"
-          aria-labelledby="tabelLabel"
-        >
-          <thead>
+        <table className="table table-striped table-bordered table-hover">
+          <thead className="thead-dark">
             <tr>
               <th>Name</th>
               <th>Breed</th>
@@ -38,49 +35,50 @@ class PetsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.pets.length === 0 && (
+            {this.props.pets.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: "center" }}>
+                <td colSpan="6" className="text-center">
                   There are no pets currently in our system.
                 </td>
               </tr>
+            ) : (
+              this.props.pets.map((pet) => (
+                <tr key={`pet-row-${pet.id}`}>
+                  <td>{pet.name}</td>
+                  <td>{pet.breed}</td>
+                  <td>{pet.color}</td>
+                  <td>
+                    {pet.checkedInAt !== "0001-01-01T00:00:00"
+                      ? moment.utc(pet.checkedInAt).local().calendar()
+                      : "Not Checked In"}
+                  </td>
+                  <td>{pet.petOwner.name}</td>
+                  <td>
+                    {pet.checkedInAt ? (
+                      <button
+                        onClick={() => this.checkOut(pet.id)}
+                        className="btn btn-info btn-sm mr-1"
+                      >
+                        Check Out
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => this.checkIn(pet.id)}
+                        className="btn btn-info btn-sm mr-1"
+                      >
+                        Check In
+                      </button>
+                    )}
+                    <button
+                      onClick={() => this.delete(pet.id)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
             )}
-            {this.props.pets.map((pet) => (
-              <tr key={`pet-row-${pet.id}`}>
-                <td>{pet.name}</td>
-                <td>{pet.breed}</td>
-                <td>{pet.color}</td>
-                <td>
-                  {pet.checkedInAt !== "0001-01-01T00:00:00"
-                    ? moment.utc(pet.checkedInAt).local().calendar()
-                    : "Not Checked In"}
-                </td>
-                <td>{pet.petOwner.name}</td>
-                <td>
-                  {pet.checkedInAt ? (
-                    <button
-                      onClick={() => this.checkOut(pet.id)}
-                      className="btn btn-sm btn-info ml-1 mr-1"
-                    >
-                      check out
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => this.checkIn(pet.id)}
-                      className="btn btn-sm btn-info ml-1 mr-1"
-                    >
-                      check in
-                    </button>
-                  )}
-                  <button
-                    onClick={() => this.delete(pet.id)}
-                    className="btn btn-sm btn-danger"
-                  >
-                    del
-                  </button>
-                </td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
@@ -108,44 +106,32 @@ class PetsTable extends Component {
   };
 
   renderMessages = () => {
-    /*
-         Look into the local state to see if we have any errors
-         that are derived from the backend validation, and display them
-      */
-    const errors = [];
-    if (this.state.errors) {
-      for (let err in this.state.errors) {
-        // check for special case errors for human readability
-        // .NET throws a weird validation error for database foreign key
-        // violations starting with $. for the field name... weird.
-        if (err === "$.petOwnerId") {
-          errors.push(<li>Invalid Pet Owner ID</li>);
-        } else {
-          errors.push(<li>{this.state.errors[err]}</li>);
-        }
-      }
-    }
+    const { errors, successMessage } = this.state;
 
     if (errors.length > 0) {
       return (
-        <div className={"alert alert-danger"}>
+        <div className="alert alert-danger">
           <p>The following errors prevented a successful save:</p>
-          <ul>{errors}</ul>
+          <ul>
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
         </div>
       );
     }
 
-    if (this.state.successMessage !== null) {
-      return (
-        <p className={"alert alert-success"}>{this.state.successMessage}</p>
-      );
+    if (successMessage !== null) {
+      return <p className="alert alert-success">{successMessage}</p>;
     }
 
     return null;
-  };
+     };
 
   render() {
-    let contents = this.state.loading ? (
+    const { loading } = this.state;
+
+    let contents = loading ? (
       <p>
         <em>Loading...</em>
       </p>
@@ -159,8 +145,8 @@ class PetsTable extends Component {
         {this.renderMessages()}
         <div className="form-group row ml-0 mr-0">
           <input
-            placeholder={"pet name"}
-            className={"form-control col-md-2 mr-2"}
+            placeholder="Pet Name"
+            className="form-control col-md-2 mr-2"
             value={this.state.newPet.name}
             onChange={(e) =>
               this.setState({
@@ -169,7 +155,7 @@ class PetsTable extends Component {
             }
           />
           <select
-            className={"form-control col-md-2 mr-2"}
+            className="form-control col-md-2 mr-2"
             value={this.state.newPet.breed}
             onChange={(e) =>
               this.setState({
@@ -190,7 +176,7 @@ class PetsTable extends Component {
             <option value="Retriever">Retriever</option>
           </select>
           <select
-            className={"form-control col-md-2 mr-2"}
+            className="form-control col-md-2 mr-2"
             value={this.state.newPet.color}
             onChange={(e) =>
               this.setState({
@@ -208,7 +194,7 @@ class PetsTable extends Component {
             <option value="Spotted">Spotted</option>
           </select>
           <select
-            className={"form-control col-md-2 mr-2"}
+            className="form-control col-md-2 mr-2"
             value={this.state.newPet.petOwnerId}
             onChange={(e) =>
               this.setState({
@@ -221,16 +207,13 @@ class PetsTable extends Component {
           >
             <option>Pet Owner</option>
             {this.props.petOwners.map((petOwner) => (
-              <option
-                value={petOwner.id}
-                key={`select-petOwner=${petOwner.id}`}
-              >
+              <option value={petOwner.id} key={petOwner.id}>
                 {petOwner.name}
               </option>
             ))}
           </select>
           <button
-            className={"form-control btn btn-primary col-md-2"}
+            className="form-control btn btn-primary col-md-2"
             onClick={this.addPet}
           >
             Add Pet
@@ -247,10 +230,10 @@ class PetsTable extends Component {
       this.fetchData();
       this.setState({
         errors: [],
-        successMessage: `Successfully removed pet`,
+        successMessage: "Successfully removed pet",
       });
     } catch (err) {
-      this.setState({ errors: { error: [err.message] }, successMessage: null });
+      this.setState({ errors: [err.message], successMessage: null });
     }
   };
 
@@ -259,11 +242,11 @@ class PetsTable extends Component {
       await axios.put(`api/pets/${id}/checkin`);
       this.setState({
         errors: [],
-        successMessage: "Successfully checked in!",
+        successMessage: "Successfully checked in",
       });
-      this.fetchData();
+      this.fetchtheckData();
     } catch (err) {
-      this.setState({ errors: { error: [err.message] }, successMessage: null });
+      this.setState({ errors: [err.message], successMessage: null });
     }
   };
 
@@ -272,11 +255,11 @@ class PetsTable extends Component {
       await axios.put(`api/pets/${id}/checkout`);
       this.setState({
         errors: [],
-        successMessage: "Successfully checked out!",
+        successMessage: "Successfully checked out",
       });
       this.fetchData();
     } catch (err) {
-      this.setState({ errors: { error: [err.message] }, successMessage: null });
+      this.setState({ errors: [err.message], successMessage: null });
     }
   };
 
@@ -285,13 +268,9 @@ class PetsTable extends Component {
       const response = await axios.get("api/pets/");
       this.props.dispatch({ type: "SET_PETS", payload: response.data });
       this.props.fetchPetOwners();
-      
-      // stretch goal 1: grab a list of breeds from the backend
-      // stretch goal 2: grab a list of colors from the backend
-
       this.setState({ loading: false });
     } catch (err) {
-      this.setState({ errors: { error: [err.message] }, successMessage: null });
+      this.setState({ errors: [err.message], successMessage: null });
     }
   };
 }
@@ -300,4 +279,5 @@ const mapStateToProps = (state) => ({
   pets: state.pets,
   petOwners: state.petOwners,
 });
+
 export default connect(mapStateToProps)(PetsTable);

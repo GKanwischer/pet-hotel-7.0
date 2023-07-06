@@ -1,0 +1,17 @@
+.table-div {
+    width: 900px;
+    height: auto;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    position: relative;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.description, .transactions {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
