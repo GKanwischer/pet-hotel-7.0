@@ -47,7 +47,7 @@ namespace pet_hotel.Controllers
         public IActionResult createPet([FromBody] Pet newPet)
         {
             Pet goodestPet = newPet;
-            Console.WriteLine($"Goodest Pet: {goodestPet.breed} {goodestPet.color}", newPet);
+            // Console.WriteLine($"Goodest Pet: {goodestPet.breed} {goodestPet.color}", newPet);
             goodestPet.petOwner = _context.PetOwners.SingleOrDefault(owner => owner.id == newPet.petOwnerId);
             
             Console.WriteLine($"pet owner: {goodestPet.petOwner}", goodestPet);
