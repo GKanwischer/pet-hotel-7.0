@@ -11,8 +11,58 @@ code {
   color: #E01A76;
 }
 
-.btn-primary {
+.btn-primary, #checkout-btn {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #000cee;
+  border-color: rgb(255, 255, 255);
+  height: 40px;
+  width: auto;
+}
+
+.btn-danger, #delete-btn {
+  color: #fff;
+  background-color: #ff0008;
+  border-color: rgb(255, 255, 255);
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+#root{
+  background-image: url('/Users/Kandyman/Documents/EDA/Tier_3/Wk_16/dotnet-pet-hotel-assignment/ClientApp/public/images/Hotel_lobby.png');
+  background-size: cover;
+  background-attachment: fixed;
+  background-size: 100%;
+}
+
+#hotel-header{
+  padding: 1.5%;
+  text-align: center;
+  background-color: rgba(35, 35, 35, 0.90);
+  color: white;
+  margin-bottom: 2%;
+  border-radius: 16px;
+  border-color: white;
+}
+
+#checkin-btn {
+  margin-right: 10px;
+}
+
+#pet-table-header{
+  padding: 1.5%;
+}
+
+#pet-inputs{
+  display: flex;
+  justify-content: space-between;
+}
+
+#owner-table-header{
+  padding: 1.5%;
+}
+
+#edit-btn {
+  border-color: rgb(255, 255, 255);
 }

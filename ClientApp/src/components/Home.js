@@ -5,7 +5,6 @@ import Transaction from "./Transaction";
 import axios from "axios";
 import { connect } from "react-redux";
 import { Container } from "reactstrap";
-import { NavMenu } from "./NavMenu";
 
 class Home extends Component {
   static displayName = Home.name;
@@ -18,15 +17,16 @@ class Home extends Component {
   render() {
     return (
       <>
-        <NavMenu />
         <Container tag="main">
-          <h1>Welcome To The Pet Hell!</h1>
-          <p>At our Pet Hotel, we take care of your pet while you are away. </p>
+          <div class='card' id="hotel-header">
+            <h1>Welcome To The Pet Hell!</h1>
+            <p>At our Pet Hotel, we take care of your pet while you are away. </p>
+          </div>
           <PetsTable fetchPetOwners={this.fetchPetOwners} />
           <br />
           <PetOwnersTable fetchPetOwners={this.fetchPetOwners} />
           <br />
-          <Transaction />
+          {/* <Transaction /> */}
         </Container>
       </>
     );
