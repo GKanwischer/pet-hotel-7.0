@@ -11,10 +11,13 @@ export default class App extends Component {
 
   render() {
     return (
+      <>
+        <NavMenu />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/transactions" element={<Transaction />} />
         </Routes>
+      </>
     );
   }
 }

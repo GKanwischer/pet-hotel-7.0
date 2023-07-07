@@ -52,7 +52,7 @@ class PetOwnersTable extends Component {
     return (
       <div className="table-responsive">
         <table
-          className="table table-striped table-bordered table-hover"
+          className="table table-striped table-bordered table-hover table-dark"
           aria-labelledby="tabelLabel"
         >
           <thead>
@@ -82,6 +82,7 @@ class PetOwnersTable extends Component {
                   <button
                     onClick={() => this.deletePetOwner(petOwner.id)}
                     className="btn btn-sm btn-danger"
+                    id="delete-btn"
                   >
                     Delete
                   </button>
@@ -105,41 +106,43 @@ class PetOwnersTable extends Component {
 
     return (
       <>
-        <h2 id="tableLabel">Pet Owners</h2>
-        {this.renderMessages()}
-        <div className="form-group row ml-0">
-          <input
-            placeholder="Pet Owner Name"
-            value={this.state.newPetOwner.name}
-            onChange={(event) =>
-              this.setState({
-                newPetOwner: {
-                  ...this.state.newPetOwner,
-                  name: event.target.value,
-                },
-              })
-            }
-            className={"form-control col-md-3 mr-2"}
-          />
-          <input
-            placeholder="Email Address"
-            value={this.state.newPetOwner.email}
-            onChange={(event) =>
-              this.setState({
-                newPetOwner: {
-                  ...this.state.newPetOwner,
-                  email: event.target.value,
-                },
-              })
-            }
-            className={"form-control col-md-3 mr-2"}
-          />
-          <button
-            onClick={this.submitPetOwner}
-            className={"btn btn-primary col-md-2"}
-          >
-            Add Pet Owner
-          </button>
+        <div class="card" id='owner-table-header'>
+          <h2 id="tableLabel">Pet Owners</h2>
+          {this.renderMessages()}
+          <div className="form-group row ml-0">
+            <input
+              placeholder="Pet Owner Name"
+              value={this.state.newPetOwner.name}
+              onChange={(event) =>
+                this.setState({
+                  newPetOwner: {
+                    ...this.state.newPetOwner,
+                    name: event.target.value,
+                  },
+                })
+              }
+              className={"form-control col-md-3 mr-2"}
+            />
+            <input
+              placeholder="Email Address"
+              value={this.state.newPetOwner.email}
+              onChange={(event) =>
+                this.setState({
+                  newPetOwner: {
+                    ...this.state.newPetOwner,
+                    email: event.target.value,
+                  },
+                })
+              }
+              className={"form-control col-md-3 mr-2"}
+            />
+            <button
+              onClick={this.submitPetOwner}
+              className={"btn btn-primary col-md-2"}
+            >
+              Add Pet Owner
+            </button>
+          </div>
         </div>
         {contents}
       </>

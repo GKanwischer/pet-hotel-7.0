@@ -14,6 +14,8 @@ class PetsTable extends Component {
       color: "",
       petOwnerId: "",
     },
+    editMode: false,
+    selectedId: 0,
   };
 
   componentDidMount = () => {
@@ -23,7 +25,7 @@ class PetsTable extends Component {
   renderTable = () => {
     return (
       <div className="table-responsive">
-        <table className="table table-striped table-bordered table-hover">
+        <table className="table table-striped table-bordered table-hover table-dark">
           <thead className="thead-dark">
             <tr>
               <th>Name</th>
@@ -31,7 +33,7 @@ class PetsTable extends Component {
               <th>Color</th>
               <th>Checked In</th>
               <th>Pet Owner</th>
-              <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -57,21 +59,31 @@ class PetsTable extends Component {
                     {pet.checkedInAt ? (
                       <button
                         onClick={() => this.checkOut(pet.id)}
-                        className="btn btn-info btn-sm mr-1"
+                        className="btn btn-primary"
+                        id="checkout-btn"
                       >
                         Check Out
                       </button>
                     ) : (
                       <button
                         onClick={() => this.checkIn(pet.id)}
-                        className="btn btn-info btn-sm mr-1"
+                        className="btn btn-primary"
+                        id="checkin-btn"
                       >
                         Check In
                       </button>
                     )}
+                    {this.state.editMode && this.selectedId === pet.id
+                      ? <button className="btn btn-info"
+                        onClick={() => this.setState({ editMode: false })}>Cancel</button>
+
+                      : <button className="btn btn-warning" id="edit-btn"
+                        onClick={() => this.setState({ editMode: true, selectedId: pet.id, newPet: {name: "", color: pet.color, breed: pet.breed, petOwner: pet.petOwner} })}>
+                        Edit
+                      </button>}
                     <button
                       onClick={() => this.delete(pet.id)}
-                      className="btn btn-danger btn-sm"
+                      className="btn btn-danger"
                     >
                       Delete
                     </button>
@@ -126,7 +138,7 @@ class PetsTable extends Component {
     }
 
     return null;
-     };
+  };
 
   render() {
     const { loading } = this.state;
@@ -141,83 +153,104 @@ class PetsTable extends Component {
 
     return (
       <>
-        <h2 id="tableLabel">Pets</h2>
-        {this.renderMessages()}
-        <div className="form-group row ml-0 mr-0">
-          <input
-            placeholder="Pet Name"
-            className="form-control col-md-2 mr-2"
-            value={this.state.newPet.name}
-            onChange={(e) =>
-              this.setState({
-                newPet: { ...this.state.newPet, name: e.target.value },
-              })
-            }
-          />
-          <select
-            className="form-control col-md-2 mr-2"
-            value={this.state.newPet.breed}
-            onChange={(e) =>
-              this.setState({
-                newPet: { ...this.state.newPet, breed: e.target.value },
-              })
-            }
-          >
-            <option value="" disabled>
-              Pet Breed
-            </option>
-            <option value="Shepherd">Shepherd</option>
-            <option value="Poodle">Poodle</option>
-            <option value="Beagle">Beagle</option>
-            <option value="Bulldog">Bulldog</option>
-            <option value="Terrier">Terrier</option>
-            <option value="Boxer">Boxer</option>
-            <option value="Labrador">Labrador</option>
-            <option value="Retriever">Retriever</option>
-          </select>
-          <select
-            className="form-control col-md-2 mr-2"
-            value={this.state.newPet.color}
-            onChange={(e) =>
-              this.setState({
-                newPet: { ...this.state.newPet, color: e.target.value },
-              })
-            }
-          >
-            <option value="" disabled>
-              Pet Color
-            </option>
-            <option value="Black">Black</option>
-            <option value="White">White</option>
-            <option value="Golden">Golden</option>
-            <option value="Tricolor">Tricolor</option>
-            <option value="Spotted">Spotted</option>
-          </select>
-          <select
-            className="form-control col-md-2 mr-2"
-            value={this.state.newPet.petOwnerId}
-            onChange={(e) =>
-              this.setState({
-                newPet: {
-                  ...this.state.newPet,
-                  petOwnerId: Number(e.target.value),
-                },
-              })
-            }
-          >
-            <option>Pet Owner</option>
-            {this.props.petOwners.map((petOwner) => (
-              <option value={petOwner.id} key={petOwner.id}>
-                {petOwner.name}
+        <div class="card" id='pet-table-header'>
+          <h2 id="tableLabel">Pets</h2>
+          {this.renderMessages()}
+          <div className="form-group row ml-0 mr-0" id='pet-inputs'>
+            {this.state.editMode
+              ? <input
+                placeholder={this.state.newPet.name}
+                className="form-control col-md-2 mr-2"
+                value={this.state.newPet.name}
+                onChange={(e) =>
+                  this.setState({
+                    newPet: {...this.state.newPet, name: e.target.value }
+                  })
+                }
+              />
+              : <input
+                placeholder="Pet Name"
+                className="form-control col-md-2 mr-2"
+                value={this.state.newPet.name}
+                onChange={(e) =>
+                  this.setState({
+                    newPet: { ...this.state.newPet, name: e.target.value },
+                  })
+                }
+              />}
+            <select
+              className="form-control col-md-2 mr-2"
+              value={this.state.newPet.breed}
+              onChange={(e) =>
+                this.setState({
+                  newPet: { ...this.state.newPet, breed: e.target.value },
+                })
+              }
+            >
+              <option value="" disabled>
+                Pet Breed
               </option>
-            ))}
-          </select>
-          <button
-            className="form-control btn btn-primary col-md-2"
-            onClick={this.addPet}
-          >
-            Add Pet
-          </button>
+              <option value="Shepherd">Shepherd</option>
+              <option value="Poodle">Poodle</option>
+              <option value="Beagle">Beagle</option>
+              <option value="Bulldog">Bulldog</option>
+              <option value="Terrier">Terrier</option>
+              <option value="Boxer">Boxer</option>
+              <option value="Labrador">Labrador</option>
+              <option value="Retriever">Retriever</option>
+            </select>
+            <select
+              className="form-control col-md-2 mr-2"
+              value={this.state.newPet.color}
+              onChange={(e) =>
+                this.setState({
+                  newPet: { ...this.state.newPet, color: e.target.value },
+                })
+              }
+            >
+              <option value="" disabled>
+                Pet Color
+              </option>
+              <option value="Black">Black</option>
+              <option value="White">White</option>
+              <option value="Golden">Golden</option>
+              <option value="Tricolor">Tricolor</option>
+              <option value="Spotted">Spotted</option>
+            </select>
+            <select
+              className="form-control col-md-2 mr-2"
+              value={this.state.newPet.petOwnerId}
+              onChange={(e) =>
+                this.setState({
+                  newPet: {
+                    ...this.state.newPet,
+                    petOwnerId: Number(e.target.value),
+                  },
+                })
+              }
+            >
+              <option>Pet Owner</option>
+              {this.props.petOwners.map((petOwner) => (
+                <option value={petOwner.id} key={petOwner.id}>
+                  {petOwner.name}
+                </option>
+              ))}
+            </select>
+            {this.state.editMode
+              ? <button
+                className="form-control btn btn-primary col-md-2"
+                onClick={() => this.update(this.state.selectedId)}
+              >
+                Save Changes
+              </button>
+              : <button
+                className="form-control btn btn-primary col-md-2"
+                onClick={this.addPet}
+              >
+                Add Pet
+              </button>
+            }
+          </div>
         </div>
         {contents}
       </>
@@ -244,7 +277,7 @@ class PetsTable extends Component {
         errors: [],
         successMessage: "Successfully checked in",
       });
-      this.fetchtheckData();
+      this.fetchData();
     } catch (err) {
       this.setState({ errors: [err.message], successMessage: null });
     }
@@ -273,6 +306,16 @@ class PetsTable extends Component {
       this.setState({ errors: [err.message], successMessage: null });
     }
   };
+
+  update = async (id) => {
+    try {
+      await axios.put(`api/pets/${id}`, this.state.newPet);
+      this.setState({ editMode: false, newPet: {name: "", color: "", breed: "", petOwner: ""} })
+      this.fetchData();
+    } catch (err) {
+      this.setState({ errors: [err.message], successMessage: null });
+    }
+  }
 }
 
 const mapStateToProps = (state) => ({

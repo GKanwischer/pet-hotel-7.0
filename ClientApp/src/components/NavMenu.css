@@ -2,10 +2,12 @@
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  color: white;
 }
 
 html {
   font-size: 14px;
+  color: white;
 }
 @media (min-width: 768px) {
   html {
@@ -15,4 +17,17 @@ html {
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.nav-header {
+  background-color: #7a2913;
+  color: white;
+}
+
+.navbar-light .navbar-brand {
+  color: white;
+}
+
+.nav-link{
+  color: white;
 }

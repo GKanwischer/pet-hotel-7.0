@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { NavMenu } from "./NavMenu";
 import './Transaction.css';
 // import { Button } from "bootstrap";
 
@@ -28,15 +27,17 @@ export default function Transaction() {
 
     const handleDelete = (e) => {
         axios.delete(`/api/transaction/${e}`)
-        .then( getTransactions())
-        .catch((err) => console.log("Error deleting transaction", err))
+            .then(getTransactions())
+            .catch((err) => console.log("Error deleting transaction", err))
     }
 
     return (
         <>
-            <NavMenu />
+            {/* <NavMenu /> */}
             <div className="table-responsive">
-                <h4 className="transactions">Transactions:</h4>
+                <div class="card" id='trans-table-header'>
+                    <h4 className="transactions">Transactions:</h4>
+                </div>
                 <div className="table-div">
                     <table className="table table-dark">
                         <thead>
